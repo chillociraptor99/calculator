@@ -1,36 +1,76 @@
 body {
     background: #000fff;
 }
+#calc {
+    display: flex;
+    flex-direction: row;
+    width: 500px;
+    gap: 3px;
+}
+#btnsOperator {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
 #btnsOperator>button {
     border: 0px;
     border-radius: 3px;
-    margin: 1px;
     width: 100px;
-    height: 25px;
+    height: 50px;
     background: #85c5eb;
 }
 #btnsOperator>button:hover {
     background: #a7d6f1;
 }
+#btnsNums {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 3px;
+}
 #btnsNums>button {
     border: 0px;
     border-radius: 3px;
-    margin: 1px;
     width: 75px;
-    height: 25px;
+    height: 100px;
     background: #85c5eb;
 }
 #btnsNums>button:hover {
     background: #a7d6f1;
 }
+#btnsEq {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 6px;
+}
 #btnsEq>button {
     border: 0px;
     border-radius: 3px;
-    margin: 1px;
-    width: 100px;
+    width: 500px;
     height: 25px;
     background: #85c5eb;
 }
 #btnsEq>button:hover {
     background: #a7d6f1;
+}
+#inputMain {
+    display: flex;
+    outline: 1px solid #000;
+    background-color: #fff;
+    height: 40px;
+    width: 500px;
+    margin-bottom: 20px;
+    font-family: 'DS-Digital', sans-serif;
+    font-size: 40px;
+    justify-content: end;
+}
+#inputLast {
+    outline: 1px solid #000;
+    background-color: #fff;
+    height: 20px;
+    width: 500px;
+    margin-bottom: 5px;
+    font-family: 'DS-Digital', sans-serif;
+    font-size: 20px;
 }
