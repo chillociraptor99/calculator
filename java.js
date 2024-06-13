@@ -180,12 +180,17 @@ btnsClear.addEventListener("click", function(e) {
         } else if (e.target.id === "delete") {
             deleteNum();
         } else if (e.target.id === "signChange") {
-            if (firstNumSet === false) {
-                firstNum[0] = (firstNum[0] * -1);
-                inputMain.textContent = +firstNum.join("");
-            } else if (firstNumSet === true && secNumSet === false) {
-                secNum[0] = (secNum[0] * -1);
-                inputMain.textContent = firstNumInt + operator + +secNum.join("");
+            if (prevOp === false) {
+                if (firstNumSet === false) {
+                    firstNum[0] = (firstNum[0] * -1);
+                    inputMain.textContent = +firstNum.join("");
+                } else if (firstNumSet === true && secNumSet === false) {
+                    secNum[0] = (secNum[0] * -1);
+                    inputMain.textContent = firstNumInt + operator + +secNum.join("");
+                }
+            } else if (prevOp === true) {
+                firstNumInt *= -1;
+                inputMain.textContent = firstNumInt;
             }
         }
     }
