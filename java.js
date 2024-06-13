@@ -8,7 +8,7 @@ let secNumSet = false;
 let firstNumInt = 0;
 let secNumInt = 0;
 let prevOp = false;
-infinite = false;
+let infinite = false;
 const btnsOperator = document.getElementById("btnsOperator");
 const btnsNums = document.getElementById("btnsNums");
 const btnsEq = document.getElementById("btnsEq");
@@ -33,7 +33,9 @@ btnsNums.addEventListener("click", function(e) {
     if (infinite === true) {
         clearAll();
     }
-    if (prevOp === true && operator === "") {
+    if (firstNum.length > 10) {
+        cleanupInput();
+    } else if (prevOp === true && operator === "") {
         clearAll();
         if (e.target.id != "" && e.target.id != "btnsNums") {
             firstNum.push(e.target.id);
@@ -139,6 +141,11 @@ function clearLast() {
     inputMain.textContent = result;
     inputLast.textContent += ` = ${result}`;
     prevOp = true;
+}
+// Cleanup input
+function cleanupInput(firstNum) {
+    firstNum.pop();
+    inputMain.textcontent = firstNum.toString();
 }
 // Delete button function
 function deleteNum() {
