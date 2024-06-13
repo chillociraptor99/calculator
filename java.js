@@ -24,7 +24,7 @@ function runCalc(firstNumInt, secNumInt, operator) {
     } else if (operator === "x") {
         result = firstNumInt * secNumInt;
     } else if (operator === "/") {
-        result = firstNumInt / secNumInt;
+        result = (Math.round((firstNumInt / secNumInt)*1000)/1000);
     }
     clearLast(result, firstNumInt);
 }
