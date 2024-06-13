@@ -1,7 +1,25 @@
 body {
-    background: #000fff;
+    background: #242321;
+    font-family: 'Courier New', Courier, monospace;
 }
-#calc {
+button {
+    font-family: 'Courier New', Courier, monospace;
+    box-shadow: 3px 3px 3px #383838;
+}
+button:active {
+    box-shadow: 1px 1px 1px #383838;
+}
+a {
+    color: #6e6e6e;
+}
+a:hover {
+    color: #d4d2cb;
+}
+.header {
+    font-size: 16px;
+    justify-content: start;
+}
+#calc{
     display: flex;
     flex-direction: row;
     width: 500px;
@@ -12,15 +30,71 @@ body {
     flex-direction: column;
     gap: 3px;
 }
-#btnsOperator>button {
+#container {
+    background: #525252;
+    display: flex;
+    flex-direction: column;
+    width: 510px;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    outline-color:#5c5c5c;
+    outline-style: solid;
+    border-radius: 4px;
+    box-shadow: 5px 5px 5px #000;
+}
+.add {
     border: 0px;
     border-radius: 3px;
     width: 100px;
-    height: 50px;
-    background: #85c5eb;
+    height: 20%;
+    background: #b02727;
 }
-#btnsOperator>button:hover {
-    background: #a7d6f1;
+.add:hover {
+    background: #962222;
+}
+.sub {
+    border: 0px;
+    border-radius: 3px;
+    width: 100px;
+    height: 25%;
+    background: #b0b027;
+}
+.sub:hover {
+    background: #9e9e25;
+}
+.mult {
+    border: 0px;
+    border-radius: 3px;
+    width: 100px;
+    height: 25%;
+    background: #40b027;
+}
+.mult:hover {
+    background: #3ca525;
+}
+.divi {
+    border: 0px;
+    border-radius: 3px;
+    width: 100px;
+    height: 25%;
+    background: #274bb0;
+}
+.divi:hover {
+    background: #2345a3;
+}
+.sChange {
+    border: 0px;
+    border-radius: 3px;
+    width: 100px;
+    height: 25%;
+    background: #5c27b0;
+}
+.sChange:hover {
+    background: #54269c;
 }
 #btnsNums {
     display: flex;
@@ -31,46 +105,99 @@ body {
 #btnsNums>button {
     border: 0px;
     border-radius: 3px;
+    font-size: 30px;
     width: 75px;
     height: 100px;
-    background: #85c5eb;
+    background: #d4d2cb;
 }
 #btnsNums>button:hover {
-    background: #a7d6f1;
+    background: rgb(226, 221, 210);
+}
+#btnsNums>button:active {
+    background: #bdb9af;
 }
 #btnsEq {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     margin-top: 6px;
+    width: 500px;
 }
 #btnsEq>button {
     border: 0px;
     border-radius: 3px;
-    width: 500px;
+    font-size: 20px;
+    width: 100%;
     height: 25px;
-    background: #85c5eb;
+    background: #d4d2cb;
 }
 #btnsEq>button:hover {
-    background: #a7d6f1;
+    background: rgb(226, 221, 210);
+}
+#btnsEq>button:active {
+    background: #bdb9af;
+}
+#btnsClear {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+    margin-bottom: 6px;
+    width: 500px;
+}
+#btnsClear>button {
+    border: 0px;
+    border-radius: 3px;
+    font-size: 20px;
+    width: 33%;
+    height: 25px;
+    background: #d4d2cb;
+}
+#btnsClear>button:hover {
+    background: rgb(226, 221, 210);
+}
+#btnsClear>button:active {
+    background: #bdb9af;
 }
 #inputMain {
     display: flex;
-    outline: 1px solid #000;
-    background-color: #fff;
+    outline: 1px solid #7d7764;
+    background-color: #a6a08d;
     height: 40px;
     width: 500px;
     margin-bottom: 20px;
     font-family: 'DS-Digital', sans-serif;
     font-size: 40px;
+    color: #333025;
     justify-content: end;
+    box-shadow: inset 0 0 4px #000000;
 }
 #inputLast {
-    outline: 1px solid #000;
-    background-color: #fff;
+    outline: 1px solid #7d7764;
+    background-color: #a6a08d;
     height: 20px;
     width: 500px;
     margin-bottom: 5px;
     font-family: 'DS-Digital', sans-serif;
     font-size: 20px;
+    color: #333025;
+    box-shadow: inset 0 0 4px #000000;
+}
+#credits {
+    display: flex;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #6e6e6e;
+    text-shadow: 1px 1px 2px #424242;
+    justify-content: space-between;
+    width: 500px;
+}
+.top, .gh {
+    display: flex;
+    width: 100%;
+}
+.top {
+    justify-content: start;
+}
+.gh {
+    justify-content: end;
 }

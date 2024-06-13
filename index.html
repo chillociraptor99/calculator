@@ -10,21 +10,27 @@
     </script>
 </head>
 <body>
+<div id="container">
     <div id="inputLast"></div>
     <div id="inputMain"></div>
     <div id="btnsClear">
-        <button id="clear">Clear</button><button id="delete">Delete</button>
+        <button id="clear">Clear</button><button id="delete">Delete</button><button id="signChange" class="sChange">±</button>
     </div>
-<div id="calc">
-    <div id="btnsNums">
-        <button id="1">1</button><button id="2">2</button><button id="3">3</button><button id="4">4</button><button id="5">5</button><button id="6">6</button><button id="7">7</button><button id="8">8</button><button id="9">9</button><button id="0">0</button>
+    <div id="calc">
+        <div id="btnsNums">
+            <button id="1">1</button><button id="2">2</button><button id="3">3</button><button id="4">4</button><button id="5">5</button><button id="6">6</button><button id="7">7</button><button id="8">8</button><button id="9">9</button><button id="0">0</button>
+        </div>
+        <div id="btnsOperator">
+            <button id="+" class="add">➕</button><button id="-" class="sub">➖</button><button id="x" class="mult">✖️</button><button id="/" class="divi">➗</button>
+        </div>
     </div>
-    <div id="btnsOperator">
-        <button id="+">➕</button><button id="-">➖</button><button id="x">✖️</button><button id="/">➗</button>
+    <div id="btnsEq">
+        <button id="equals">=</button>
     </div>
-</div>
-<div id="btnsEq">
-    <button id="equals">=</button>
+    <div id="credits">
+        <div class="top"> <a href="https://www.theodinproject.com/">ToP</a></div>
+        <div class="gh">Chill @ <a href="https://github.com/chillociraptor99">GitHub</a></div>
+    </div>
 </div>
 </body>
 </html>

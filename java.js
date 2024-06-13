@@ -1,12 +1,14 @@
 // Initialize vars
-let num1 = [];
-let num2 = [];
+let firstNum = [];
+let secNum = [];
 let operator = "";
 let result = 0;
-let num1Set = false;
-let num2Set = false;
-let num1Int = 0;
-let num2Int = 0;
+let firstNumSet = false;
+let secNumSet = false;
+let firstNumInt = 0;
+let secNumInt = 0;
+let prevOp = false;
+infinite = false;
 const btnsOperator = document.getElementById("btnsOperator");
 const btnsNums = document.getElementById("btnsNums");
 const btnsEq = document.getElementById("btnsEq");
@@ -14,109 +16,177 @@ const inputMain = document.getElementById("inputMain");
 const inputLast = document.getElementById("inputLast");
 
 // Define calculations
-function runCalc(num1, num2, operator) {
+function runCalc(firstNumInt, secNumInt, operator) {
     if (operator === "+") {
-        result = num1Int + num2Int;
-        num1 = [];
-        num2 = [];
+        result = firstNumInt + secNumInt;
     } else if (operator === "-") {
-        result = num1Int - num2Int;
-        num1 = [];
-        num2 = [];
+        result = firstNumInt - secNumInt;
     } else if (operator === "x") {
-        result = num1Int * num2Int;
-        num1 = [];
-        num2 = [];
+        result = firstNumInt * secNumInt;
     } else if (operator === "/") {
-        result = num1Int / num2Int;
-        num1 = [];
-        num2 = [];
+        result = firstNumInt / secNumInt;
     }
-    inputLast.textContent += ` = ${result}`;
-    inputMain.textContent = ` ${result}`;
-    num1.push(result);
-    num1Set = true;
-    console.log(num1)
-    return num1;
+    clearLast(result, firstNumInt);
 }
-// Parse first num & set operator
+// Get firstNum
+btnsNums.addEventListener("click", function(e) {
+    if (infinite === true) {
+        clearAll();
+    }
+    if (prevOp === true && operator === "") {
+        clearAll();
+        if (e.target.id != "" && e.target.id != "btnsNums") {
+            firstNum.push(e.target.id);
+            inputMain.textContent += e.target.id;
+        }
+    } else if (firstNumSet === false && prevOp === false) {
+        if (e.target.id != "" && e.target.id != "btnsNums") {
+             firstNum.push(e.target.id);
+             inputMain.textContent += e.target.id;
+         }
+    }
+});
+// Parse first num & set operator or sign
 btnsOperator.addEventListener("click", function(e) {
-    if (num1.length > 0) {
-        let stringed = num1.join("");
-        num1Int = parseInt(stringed);
-        num1Set = true;
+    if (firstNum.length === 0 && secNum.length === 0) {
+        inputMain.textContent = "";
         inputLast.textContent = "";
-        inputLast.textContent += `${num1Int}`;
-        console.log(num1);
-        if (e.target.id != "" && e.target.id != "btnsOperator") {
+        operator = "";
+    }
+    if (firstNum.length > 0 && prevOp === false) {
+        if (operator === "") {
+            firstNumInt = +firstNum.join("");
+            firstNumSet = true;
+            inputLast.textContent = "";
+            inputLast.textContent += `${firstNumInt}`;
+            if (e.target.id != "" && e.target.id != "btnsOperator") {
+                operator = e.target.id;
+                firstNumSet = true;
+                inputMain.textContent += e.target.id;
+                inputLast.textContent += ` ${operator}`;
+            }
+        } else {    //Account for multiple operator presses
             operator = e.target.id;
-            inputMain.textContent += e.target.id;
-            inputLast.textContent += ` ${operator}`;
-        } 
-        return num1Int;
+            firstNumSet = true;
+            inputMain.textContent = `${firstNumInt}${operator}`;
+            inputLast.textContent = `${firstNumInt} ${operator}`;
+        }
+    } else if (prevOp === true) {
+        if (operator === "") {
+            if (e.target.id != "" && e.target.id != "btnsOperator") {
+                operator = e.target.id;
+                firstNumSet = true;
+                inputMain.textContent += e.target.id;
+                inputLast.textContent += ` ${operator}`;
+            }
+        } else {    //Account for multiple operator presses
+            operator = e.target.id;
+            firstNumSet = true;
+            inputMain.textContent = `${firstNumInt}${operator}`;
+            inputLast.textContent = `${firstNumInt} ${operator}`;
+        }
     }
 });
-// Get num1
+// Get secNum
 btnsNums.addEventListener("click", function(e) {
-    if (num1Set === false) {
+    if (firstNumSet === true) {
         if (e.target.id != "" && e.target.id != "btnsNums") {
-            num1.push(e.target.id);
+            secNum.push(e.target.id);
             inputMain.textContent += e.target.id;
         }
-        return num1;
     }
 });
-// Get num2
-btnsNums.addEventListener("click", function(e) {
-    if (num1Set === true) {
-        if (e.target.id != "" && e.target.id != "btnsNums") {
-            num2.push(e.target.id);
-            inputMain.textContent += e.target.id;
-        }
-        return num2;
-    }
-});
-// Parse num2 & run calculator
+// Parse secNum & run calculator
 btnsEq.addEventListener("click", function(e) {
-    if (num2.length != 0){
-        let stringed = num2.join("");
-        num2Int = parseInt(stringed);
-        num2Set = true;
-        inputLast.textContent += ` ${num2Int}`;
-        if (num2Int === 0 && operator === "/") {
-            clear();
+    if (secNum.length != 0){
+        secNumInt = +secNum.join("");
+        secNumSet = true;
+        inputLast.textContent += ` ${secNumInt}`;
+        if (secNumInt === 0 && operator === "/") {
+            clearAll();
             inputMain.textContent = "Hahahaha. stop that";
             inputLast.textContent = "∞";
+            infinite = true;
         }
-        if (num1Set === true && num2Set === true) {
+        if (firstNumSet === true && secNumSet === true) {
             if (e.target.id != "" && e.target.id != "btnsEq") {
-                result = runCalc(num1, num2, operator);
-                num2Set = false;
-                operator = "";
-                num1Int = 0;
-                num2Int = 0;
+                runCalc(firstNumInt, secNumInt, operator);
             }
         }
     }
-    return num2Int;
+    return secNumInt;
 });
 // Clear all values
-function clear () {
-    num1 = [];
-    num2 = [];
-    num1Set = false;
-    num2Set = false;
+function clearAll() {
+    firstNum = [];
+    secNum = [];
+    firstNumSet = false;
+    secNumSet = false;
     operator = "";
     inputMain.textContent = "";
     inputLast.textContent = "";
+    prevOp = false;
+    infinite = false;
 }
+// Clear last values except result
+function clearLast() {
+    firstNumInt = result;
+    secNum = [];
+    secNumInt = 0;
+    secNumSet = false;
+    firstNumSet = true;
+    operator = "";
+    inputMain.textContent = result;
+    inputLast.textContent += ` = ${result}`;
+    prevOp = true;
+}
+// Delete button function
+function deleteNum() {
+        if (firstNum.length === 1 && operator === "" && secNum.length === 0) {
+            firstNum = [];
+            inputMain.textContent = "";
+        }
+        else if (firstNum.length > 0 && operator === "" && secNum.length === 0) {
+            firstNum.pop();
+            firstNumInt = +firstNum.join("");
+            firstNumSet = true;
+            if (firstNum.length > 1) {
+                inputMain.textContent = `${firstNumInt}`;
+                } else {
+                    inputMain.textContent = `${firstNumInt}`;
+                }
+        } else if (firstNum.length > 0 && operator != "" && secNum.length === 0) {
+            operator = "";
+            inputMain.textContent = `${firstNumInt}`;
+        } else if (firstNum.length > 0 && operator != "" && secNum.length > 0) {
+            if (secNum.length === 1) {
+                secNum = [];
+                inputMain.textContent = `${firstNumInt}${operator}`;
+                return;
+            } else if (secNum.length > 1) {
+                secNum.pop();
+                secNumInt = +secNum.join("");
+                secNumSet = true;
+                inputMain.textContent = `${firstNumInt}${operator}${secNumInt}`;
+                return;
+            }
+        }
+}
+// Clear, delete, sign change buttons
 btnsClear.addEventListener("click", function(e) {
     if (e.target.id != "" && e.target.id != "btnsClear") {
         if (e.target.id === "clear"){
-            clear();
+            clearAll();
         } else if (e.target.id === "delete") {
-            return;
+            deleteNum();
+        } else if (e.target.id === "signChange") {
+            if (firstNumSet === false) {
+                firstNum[0] = (firstNum[0] * -1);
+                inputMain.textContent = +firstNum.join("");
+            } else if (firstNumSet === true && secNumSet === false) {
+                secNum[0] = (secNum[0] * -1);
+                inputMain.textContent = firstNumInt + operator + +secNum.join("");
+            }
         }
     }
 });
-
