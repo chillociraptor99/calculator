@@ -191,6 +191,7 @@ btnsClear.addEventListener("click", function(e) {
             } else if (prevOp === true) {
                 firstNumInt *= -1;
                 inputMain.textContent = firstNumInt;
+                inputLast.textContent = firstNumInt;
             }
         }
     }
