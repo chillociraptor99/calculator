@@ -54,39 +54,61 @@ btnsOperator.addEventListener("click", function(e) {
         inputMain.textContent = "";
         inputLast.textContent = "";
         operator = "";
-    }
-    if (firstNum.length > 0 && prevOp === false) {
-        if (operator === "") {
-            firstNumInt = +firstNum.join("");
-            firstNumSet = true;
-            inputLast.textContent = "";
-            inputLast.textContent += `${firstNumInt}`;
-            if (e.target.id != "" && e.target.id != "btnsOperator") {
+    } else if (firstNum.length > 0 && secNum.length === 0) { 
+        // When no second number has been entered
+        if (prevOp === false) {
+            if (operator === "") {
+                firstNumInt = +firstNum.join("");
+                firstNumSet = true;
+                inputLast.textContent = "";
+                inputLast.textContent += `${firstNumInt}`;
+                if (e.target.id != "" && e.target.id != "btnsOperator") {
+                    operator = e.target.id;
+                    firstNumSet = true;
+                    inputMain.textContent += e.target.id;
+                    inputLast.textContent += ` ${operator}`;
+                }
+            } else {    // Account for multiple operator presses
                 operator = e.target.id;
                 firstNumSet = true;
-                inputMain.textContent += e.target.id;
-                inputLast.textContent += ` ${operator}`;
+                inputMain.textContent = `${firstNumInt}${operator}`;
+                inputLast.textContent = `${firstNumInt} ${operator}`;
             }
-        } else {    //Account for multiple operator presses
-            operator = e.target.id;
-            firstNumSet = true;
-            inputMain.textContent = `${firstNumInt}${operator}`;
-            inputLast.textContent = `${firstNumInt} ${operator}`;
-        }
-    } else if (prevOp === true) {
-        if (operator === "") {
-            if (e.target.id != "" && e.target.id != "btnsOperator") {
+        } else if (prevOp === true) {
+            if (operator === "") {
+                if (e.target.id != "" && e.target.id != "btnsOperator") {
+                    operator = e.target.id;
+                    firstNumSet = true;
+                    inputMain.textContent += e.target.id;
+                    inputLast.textContent += ` ${operator}`;
+                }
+            } else {    // Account for multiple operator presses
                 operator = e.target.id;
                 firstNumSet = true;
-                inputMain.textContent += e.target.id;
-                inputLast.textContent += ` ${operator}`;
+                inputMain.textContent = `${firstNumInt}${operator}`;
+                inputLast.textContent = `${firstNumInt} ${operator}`;
             }
-        } else {    //Account for multiple operator presses
-            operator = e.target.id;
-            firstNumSet = true;
-            inputMain.textContent = `${firstNumInt}${operator}`;
-            inputLast.textContent = `${firstNumInt} ${operator}`;
         }
+    } else if (firstNum.length > 0 && secNum.length > 0) {
+        // Second number has been entered
+        if (prevOp === false) {
+            secOp = e.target.id;
+            secNumInt = +secNum.join("");
+            secNumSet = true;
+            runCalc(firstNumInt, secNumInt, operator);
+            firstNumInt = result;
+            operator = secOp;
+            inputMain.textContent = `${result} ${operator}`;
+            console.log(prevOp);
+            } else if (prevOp === true) {
+                secOp = e.target.id;
+                secNumInt = +secNum.join("");
+                secNumSet = true;
+                runCalc(firstNumInt, secNumInt, operator);
+                firstNumInt = result;
+                operator = secOp;
+                inputMain.textContent = `${result} ${operator}`;
+                }
     }
 });
 // Get secNum
@@ -100,23 +122,72 @@ btnsNums.addEventListener("click", function(e) {
 });
 // Parse secNum & run calculator
 btnsEq.addEventListener("click", function(e) {
-    if (secNum.length != 0){
-        secNumInt = +secNum.join("");
-        secNumSet = true;
-        inputLast.textContent += ` ${secNumInt}`;
-        if (secNumInt === 0 && operator === "/") {
-            clearAll();
-            inputMain.textContent = "Hahahaha. stop that";
-            inputLast.textContent = "∞";
-            infinite = true;
-        }
-        if (firstNumSet === true && secNumSet === true) {
-            if (e.target.id != "" && e.target.id != "btnsEq") {
-                runCalc(firstNumInt, secNumInt, operator);
+    if (prevOp === false) {
+        if (secNum.length != 0){
+            secNumInt = +secNum.join("");
+            secNumSet = true;
+            inputLast.textContent += ` ${secNumInt}`;
+            if (secNumInt === 0 && operator === "/") {
+                clearAll();
+                inputMain.textContent = "Hahahaha. stop that";
+                inputLast.textContent = "∞";
+                infinite = true;
             }
+            if (firstNumSet === true && secNumSet === true) {
+                if (e.target.id != "" && e.target.id != "btnsEq") {
+                    runCalc(firstNumInt, secNumInt, operator);
+                }
+            }
+        }
+        } else {
+            if (secNum.length != 0){
+                secNumInt = +secNum.join("");
+                secNumSet = true;
+                if (secNumInt === 0 && operator === "/") {
+                    clearAll();
+                    inputMain.textContent = "Hahahaha. stop that";
+                    inputLast.textContent = "∞";
+                    infinite = true;
+                }
+                if (firstNumSet === true && secNumSet === true) {
+                    if (e.target.id != "" && e.target.id != "btnsEq") {
+                        runCalc(firstNumInt, secNumInt, operator);
+                    }
+                }
         }
     }
     return secNumInt;
+});
+// Clear, delete, sign change buttons
+btnsClear.addEventListener("click", function(e) {
+    if (e.target.id != "" && e.target.id != "btnsClear") {
+        if (e.target.id === "clear"){
+            clearAll();
+        } else if (e.target.id === "delete") {
+            deleteNum();
+        } else if (e.target.id === "signChange") {
+            if (prevOp === false) {
+                if (firstNumSet === false) {
+                    firstNum[0] = (firstNum[0] * -1);
+                    inputMain.textContent = +firstNum.join("");
+                } else if (firstNumSet === true && secNumSet === false) {
+                    secNum[0] = (secNum[0] * -1);
+                    inputMain.textContent = firstNumInt + operator + +secNum.join("");
+                }
+            } else if (prevOp === true) {
+                if (firstNum.length > 0 && secNum.length === 0) {
+                    if (firstNumSet === false) {
+                        firstNum[0] = (firstNum[0] * -1);
+                        inputMain.textContent = +firstNum.join("");
+                    } else if (firstNumSet === true && secNumSet === false) {
+                        secNum[0] = (secNum[0] * -1);
+                        console.log(secNum[0]);
+                        inputMain.textContent = firstNumInt + operator + +secNum.join("");
+                    }
+                }
+            }
+        }
+    }
 });
 // Clear all values
 function clearAll() {
@@ -132,15 +203,27 @@ function clearAll() {
 }
 // Clear last values except result
 function clearLast() {
-    firstNumInt = result;
-    secNum = [];
-    secNumInt = 0;
-    secNumSet = false;
-    firstNumSet = true;
-    operator = "";
-    inputMain.textContent = result;
-    inputLast.textContent += ` = ${result}`;
-    prevOp = true;
+    if (prevOp === true) {
+        inputLast.textContent += ` ${operator} ${secNumInt} = ${result}`;
+        firstNumInt = result;
+        secNum = [];
+        secNumInt = 0;
+        secNumSet = false;
+        firstNumSet = true;
+        operator = "";
+        inputMain.textContent = result;
+        prevOp = true;
+    } else {
+        inputLast.textContent += `${secNumInt} = ${result}`;
+        firstNumInt = result;
+        secNum = [];
+        secNumInt = 0;
+        secNumSet = false;
+        firstNumSet = true;
+        operator = "";
+        inputMain.textContent = result;
+        prevOp = true;
+    }
 }
 // Cleanup input
 function cleanupInput(firstNum) {
@@ -179,27 +262,3 @@ function deleteNum() {
             }
         }
 }
-// Clear, delete, sign change buttons
-btnsClear.addEventListener("click", function(e) {
-    if (e.target.id != "" && e.target.id != "btnsClear") {
-        if (e.target.id === "clear"){
-            clearAll();
-        } else if (e.target.id === "delete") {
-            deleteNum();
-        } else if (e.target.id === "signChange") {
-            if (prevOp === false) {
-                if (firstNumSet === false) {
-                    firstNum[0] = (firstNum[0] * -1);
-                    inputMain.textContent = +firstNum.join("");
-                } else if (firstNumSet === true && secNumSet === false) {
-                    secNum[0] = (secNum[0] * -1);
-                    inputMain.textContent = firstNumInt + operator + +secNum.join("");
-                }
-            } else if (prevOp === true) {
-                firstNumInt *= -1;
-                inputMain.textContent = firstNumInt;
-                inputLast.textContent = firstNumInt;
-            }
-        }
-    }
-});
